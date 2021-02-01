@@ -29,7 +29,7 @@ public class HistoricalData
     {
 	hd = new ArrayList();
 	classifiedHD = new ArrayList();
-	if (updateData(numOfCombos))
+	if (updateData(numOfCombos, produceExcelSheet))
 	    System.out.println("Successfully retrieved combos from current site.");
 	else
 	    System.err.println("Failed to retrieve combos from current site.");
@@ -75,7 +75,7 @@ public class HistoricalData
      * @param  y  a sample parameter for a method
      * @return    the sum of x and y
      */
-    private boolean updateData(int numNewEntries)
+    private boolean updateData(int numNewEntries, boolean makeSheet)
     {
 	int i = 1;
 	int numEntries = numNewEntries;
@@ -89,7 +89,8 @@ public class HistoricalData
 	    try {
 		BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
 		String formattedData = interpretData(in, true, numEntries);
-		makeDatasheet(formattedData, "NewHD");
+		if (makeSheet)
+			makeDatasheet(formattedData, "NewHD");
 		Path fileName = Path.of("NewHistoricalDataFullA.txt");
 		String existingHD = Files.readString(fileName);
 		formattedData += existingHD;
